@@ -58,15 +58,18 @@ int main(int argc, char **argv) {
   - The manpage even says _Never use this function_ at the very top of the page 
 
 - Here we can see the program allocating space for the buffer just before the call to `gets()`:
-![[Pasted image 20210330143112.png]]
+
+![](Pasted%20image%2020210330145259.png)
 
 - We see that 0 is moved into `[rbp-0x10]` which is `local.changeme` then a call to `lea rax, [rbp - 0x50]` which sets `rax` to the the start of our buffer for the `local` struct.
 
 - We can confirm this by looking at the values. The first is `[rbp - 0x10]` which is `local.changme`. It is set to zero just like we expect.
-![[Pasted image 20210330143428.png]]
+
+![](Pasted%20image%2020210330145327.png)
 
 - Next is our buffer:
-![[Pasted image 20210330144032.png]]
+
+![](Pasted%20image%2020210330145350.png)
 
 - Note the address that we are inspected is stored in `rax` from the `lea` instruction before the call to `gets()`. This is where our string is being written to! We can see that our buffer is zeroed out and that our `changeme` variable is right next to our buffer! This means we can overwrite it since there is no length check on data input or validation by the `gets()` function.
 
@@ -76,6 +79,7 @@ python -c "print('A' * 65)" # Gives us 65 A's to use as our payload
 ```
 
 - After our input this is what the buffers look like:
-![[Pasted image 20210330144326.png]]
+
+![](Pasted%20image%2020210330145420.png)
 
 - Notice how the `buffer` is full of `0x41` which is `A` in hex, and that we overflowed into the value of `local.changeme` so that its value is no longer zero! Thus giving us the win on this binary challenge.
