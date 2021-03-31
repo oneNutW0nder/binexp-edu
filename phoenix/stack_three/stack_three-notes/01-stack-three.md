@@ -56,6 +56,7 @@ int main(int argc, char **argv) {
 ## Payload
 ```bash
 $ python3 -c "print('A' * 63 + '\x9d\x06\x40')" | ./stack-three
+$ python2.7 -c "print('A' * 64 + '\x9d\x06\x40')" | ./stack-three
 ```
 
 ## Solution
@@ -115,5 +116,9 @@ $ python3 -c "print('A' * 63 + '\x9d\x06\x40')" | ./stack-three
 ![](Pasted%20image%2020210330164819.png)
 
 - Success!
+
+## PLEASE READ
+
+- After consulting a friend, and reading some documentation that was unrelated to this challenge, I discovered that the reason for the random `0xc2` byte appearing is because of unicode interpretation that occurs in python3. Notice that in the _payload_ section above that there are two exploits that both work. The one with python3 requires a padding of 63 bytes because one of the bytes (I believe it is the `0x9d`) is being interpretted as unicode which adds in the `0xc2` byte thus artificially increasing our input size. Python3 is kinda annoying for exploit dev!
 
 
