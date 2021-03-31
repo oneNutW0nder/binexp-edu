@@ -48,6 +48,11 @@ int main(int argc, char **argv) {
 }
 ```
 
+## Payload
+```python
+python -c "print('A' * 65)" # Gives us 65 A's to use as our payload
+```
+
 ## Solution
 
 - We can see the struct being created the first few lines of `main()`

