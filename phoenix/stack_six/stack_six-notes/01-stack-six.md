@@ -93,6 +93,19 @@ int main(int argc, char **argv) {
 		- `127 - 34 = 93 bytes`
 		- There are only 93 bytes leftover in `buffer` but we are able to write up to 127 bytes to `buffer + strlen(what)`. This means we can overflow the buffer by up to 34 bytes (`127 - 93 = 34 bytes`)
 	- If we can overflow the buffer by 34 bytes, what are some interesting values that we can control?
+		- I can control the last byte of the saved `rbp`. This is `main()`'s base pointer!
+			- Since we can control the base pointer we can manipulate where `main()` will return from
+
+- When we leave the `greet()` function, `pop rbp` is executed which puts the value that `rbp` points to into `rbp`. Normally, this would be the base pointer for the calling function, in our case this _should_ be the `rbp` for the `main()` function. However, we can control the last byte which means we can point the `rbp` of `greet()` at a subset of stack addresses (within that one byte). When `greet()` returns the value pointed to by `rbp` will be placed in `rbp` and used in `main()`. 
+	- https://www.exploit-db.com/docs/english/28478-linux-off-by-one-vulnerabilities.pdf
+
+- With control of `main()`'s `rbp` we can specify a new stack frame which we can build with our large buffer `who`. When `main()` returns now it will set `rbp` to the value we control which will point back to our buffer which will be a stack frame with our shellcode! 
+
+- When we return back into `main()` the `rbp` register contains the address for `main()`'s base pointer. Which will be used when `main()` returns to restore the stack from for `libc` (the caller of `main()`). This means that `rsp` is set to 8 bytes ahead of the base pointer which would normally be the saved `rsp` for `libc` (the caller of main).
+
+- Things for exploit:
+	- Address of our payload in memory
+	- Shellcode + NOP sled :D
 
 - **TESTING REVEALS SEG FAULT WITH 400 CHARS!**
 
